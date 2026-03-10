@@ -8,11 +8,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="pt">
-      <body className="flex">
+      <body className="flex bg-[#F5F3FF]">
 
         <Sidebar />
 
-        <main className="flex-1 bg-gray-100">
+        <main className="flex-1 p-10 bg-gray-100 min-h-screen">
           {children}
         </main>
 
