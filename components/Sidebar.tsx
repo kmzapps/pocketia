@@ -1,33 +1,67 @@
+"use client";
+
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { LayoutDashboard, Wallet, Target, Bot } from "lucide-react";
 
 export default function Sidebar() {
-  return (
-    <div className="w-64 h-screen bg-[#4C1D95] text-white p-6 flex flex-col">
+  const pathname = usePathname();
 
+  return (
+    <aside className="w-64 h-screen bg-gradient-to-b from-purple-900 to-purple-800 text-white p-6 flex flex-col">
+
+      {/* Logo */}
       <h1 className="text-2xl font-bold mb-10">
         PocketIA
       </h1>
 
+      {/* Menu */}
       <nav className="space-y-3">
 
-        <Link href="/dashboard" className="block p-3 rounded-lg hover:bg-[#5B21B6]">
-          📊 Painel
-        </Link>
+        <MenuItem
+          href="/dashboard"
+          icon={<LayoutDashboard size={18} />}
+          label="Visão Geral"
+          active={pathname === "/dashboard"}
+        />
 
-        <Link href="/expenses" className="block p-3 rounded-lg hover:bg-[#5B21B6]">
-          💰 Despesas
-        </Link>
+        <MenuItem
+          href="/expenses"
+          icon={<Wallet size={18} />}
+          label="Despesas"
+          active={pathname === "/expenses"}
+        />
 
-        <Link href="/goals" className="block p-3 rounded-lg hover:bg-[#5B21B6]">
-          🎯 Objetivos
-        </Link>
+        <MenuItem
+          href="/goals"
+          icon={<Target size={18} />}
+          label="Objetivos"
+          active={pathname === "/goals"}
+        />
 
-        <Link href="/assistant" className="block p-3 rounded-lg hover:bg-[#5B21B6]">
-          🤖 PocketIA
-        </Link>
+        <MenuItem
+          href="/assistant"
+          icon={<Bot size={18} />}
+          label="Assistente IA"
+          active={pathname === "/assistant"}
+        />
 
       </nav>
 
-    </div>
+    </aside>
+  );
+}
+
+function MenuItem({ href, icon, label, active }: any) {
+  return (
+    <Link
+      href={href}
+      className={`flex items-center gap-3 p-3 rounded-lg transition ${
+        active ? "bg-purple-600" : "hover:bg-purple-700"
+      }`}
+    >
+      {icon}
+      <span>{label}</span>
+    </Link>
   );
 }

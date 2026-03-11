@@ -3,6 +3,22 @@
 import { useState } from "react";
 import { supabase } from "@/lib/supabase";
 
+function detectCategory(description: string) {
+
+  const text = description.toLowerCase();
+
+  if (text.includes("gasolina")) return "Transporte";
+  if (text.includes("uber")) return "Transporte";
+
+  if (text.includes("almoço")) return "Alimentação";
+  if (text.includes("jantar")) return "Alimentação";
+
+  if (text.includes("netflix")) return "Lazer";
+  if (text.includes("cinema")) return "Lazer";
+
+  return "Outros";
+}
+
 export default function Expenses() {
 
   const [input, setInput] = useState("");
@@ -10,19 +26,27 @@ export default function Expenses() {
 
   async function addExpense() {
 
-    const match = input.match(/(\d+)\s*€?\s*(.*)/);
+    if (!input.trim()) return;
 
-    if (!match) return;
+    const parts = input.trim().split(" ");
 
-    const amount = Number(match[1]);
-    const description = match[2] || "Despesa";
+    const amount = parseFloat(
+      parts[0]
+        .replace("€", "")
+        .replace(",", ".")
+    );
+
+    const description = parts.slice(1).join(" ") || "Despesa";
+
+    const category = detectCategory(description);
 
     const { data, error } = await supabase
       .from("expenses")
       .insert([
         {
           amount: amount,
-          description: description
+          description: description,
+          category: category
         }
       ])
       .select();
@@ -37,13 +61,20 @@ export default function Expenses() {
   }
 
   return (
-    <main>
+    <div className="space-y-8">
 
-      <h1 className="text-3xl font-bold mb-8 text-gray-900">
-        Despesas
-      </h1>
+      {/* Título */}
+      <div>
+        <h1 className="text-3xl font-bold text-gray-900">
+          Despesas
+        </h1>
+        <p className="text-gray-500">
+          Regista e acompanha os teus gastos
+        </p>
+      </div>
 
-      <div className="card max-w-md">
+      {/* adicionar despesa */}
+      <div className="bg-white p-6 rounded-2xl shadow border max-w-md">
 
         <input
           value={input}
@@ -56,25 +87,44 @@ export default function Expenses() {
           onClick={addExpense}
           className="mt-4 w-full bg-purple-700 text-white p-3 rounded-lg hover:bg-purple-800"
         >
-          Adicionar
+          Adicionar despesa
         </button>
 
       </div>
 
-      <div className="mt-8 max-w-md">
+      {/* lista */}
+      <div className="bg-white p-6 rounded-2xl shadow border max-w-md">
 
-        {expenses.map((e, i) => (
-          <div
-            key={i}
-            className="card mb-2 flex justify-between text-gray-900"
-          >
-            <span>{e.description}</span>
-            <span className="font-bold">{e.amount}€</span>
-          </div>
-        ))}
+        <h3 className="font-semibold mb-4 text-gray-900">
+          Últimas despesas
+        </h3>
+
+        {expenses.length === 0 && (
+          <p className="text-gray-400 text-sm">
+            Ainda não tens despesas registadas
+          </p>
+        )}
+
+        <div className="space-y-2">
+
+          {expenses.map((e, i) => (
+            <div
+              key={i}
+              className="flex justify-between border-b pb-2 text-gray-900"
+            >
+              <span>{e.description}</span>
+
+              <span className="font-bold">
+                {e.amount}€
+              </span>
+
+            </div>
+          ))}
+
+        </div>
 
       </div>
 
-    </main>
+    </div>
   );
 }
