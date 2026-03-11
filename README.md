@@ -1,36 +1,49 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# PocketIA
 
-## Getting Started
+Aplicação financeira em Next.js para acompanhar despesas, visualizar resumo mensal e evoluir para um assistente financeiro inteligente.
 
-First, run the development server:
+## Requisitos
+
+- Node.js 20+
+- npm 10+
+
+## Configuração
+
+1. Instala dependências:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Cria o ficheiro `.env.local` com base no exemplo:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+cp .env.example .env.local
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+3. Preenche as variáveis de ambiente do Supabase em `.env.local` (obrigatório para as páginas de dados).
 
-## Learn More
+## Variáveis de ambiente
 
-To learn more about Next.js, take a look at the following resources:
+A aplicação usa as variáveis públicas abaixo:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- `NEXT_PUBLIC_SUPABASE_URL`
+- `NEXT_PUBLIC_SUPABASE_ANON_KEY`
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Scripts
 
-## Deploy on Vercel
+```bash
+npm run dev    # ambiente de desenvolvimento
+npm run lint   # validação de lint
+npm run build  # build de produção
+npm run start  # arranque em produção
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Funcionalidades atuais
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Dashboard com resumo de despesas do mês e atividade recente.
+- Página de despesas com:
+  - parse de texto livre (ex.: `12,50€ almoço`),
+  - gravação no Supabase,
+  - carregamento inicial da lista,
+  - feedback visual de erro e estados vazios/carregamento.
