@@ -65,3 +65,9 @@ function MenuItem({ href, icon, label, active }: any) {
     </Link>
   );
 }
+<Link
+ href="/settings"
+ className="block p-3 rounded-lg hover:bg-[#5B21B6]"
+>
+⚙️ Configurações
+</Link>
