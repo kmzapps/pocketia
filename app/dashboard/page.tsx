@@ -97,6 +97,7 @@ export default function Dashboard() {
         <h1 className="text-3xl font-bold text-gray-900">
           Visão Geral
         </h1>
+
         <p className="text-gray-500">
           Resumo da tua atividade financeira
         </p>
@@ -106,7 +107,7 @@ export default function Dashboard() {
 
         <Card
           title="Saldo atual"
-          value={`${balance}€`}
+          value={`${balance - monthlySpent}€`}
           color="text-green-600"
         />
 
