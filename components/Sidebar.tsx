@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, Wallet, Target, Bot } from "lucide-react";
+import { LayoutDashboard, Wallet, Target, Bot, Settings } from "lucide-react";
 
 export default function Sidebar() {
   const pathname = usePathname();
@@ -10,12 +10,10 @@ export default function Sidebar() {
   return (
     <aside className="w-64 h-screen bg-gradient-to-b from-purple-900 to-purple-800 text-white p-6 flex flex-col">
 
-      {/* Logo */}
       <h1 className="text-2xl font-bold mb-10">
         PocketIA
       </h1>
 
-      {/* Menu */}
       <nav className="space-y-3">
 
         <MenuItem
@@ -46,6 +44,13 @@ export default function Sidebar() {
           active={pathname === "/assistant"}
         />
 
+        <MenuItem
+          href="/settings"
+          icon={<Settings size={18} />}
+          label="Configurações"
+          active={pathname === "/settings"}
+        />
+
       </nav>
 
     </aside>
@@ -65,9 +70,3 @@ function MenuItem({ href, icon, label, active }: any) {
     </Link>
   );
 }
-<Link
- href="/settings"
- className="block p-3 rounded-lg hover:bg-[#5B21B6]"
->
-⚙️ Configurações
-</Link>
